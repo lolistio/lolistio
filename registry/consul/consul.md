@@ -4,6 +4,8 @@
 
 针对一些还未接入到k8s的Spring Cloud服务，其使用的注册中心可能是consul，如何让k8s集群上的的consumer服务能访问到非k8s集群Provider，是应用在服务网格迁移过程中所面临的问题。istio本身提供了一些机制，来引入外部注册中心的服务。
 
+![consul-registry](consul-registry.png)
+
 istio在发展过程中，对于外部注册中心的支持经历了多个阶段：内置支持、MCP、MCP over XDS，最终的计划是通过UDPA接入。目前的istio代码（1.10）是MCP over XDS的方式接入，不过官方没有提供相关的实现参考。
 
 istio最后一个intree支持consul作为注册中心的版本是 1.7.8 。
