@@ -2,7 +2,7 @@
 
 # 从虚拟机访问服务网格上的应用
 
-在前文[access workload on virtual machine by service entry](traffic/service-entry.md)中，说明了如何通过`service entry/workload entry/dns proxy`来从服务网格内访问在虚拟机上的服务。那么如何在虚拟机上，访问服务网格上的服务呢？
+在前文[access workload on virtual machine by service entry](service-entry.md)中，说明了如何通过`service entry/workload entry/dns proxy`来从服务网格内访问在虚拟机上的服务。那么如何在虚拟机上，访问服务网格上的服务呢？
 
 istio提供了一个方案：在虚拟机上部署sidecar（主要是pilot-agent和envoy），并且修改虚拟机的iptables，从而达到与Kubernetes上类似的架构，这样就可以在虚拟机上劫持应用的流量，交给envoy来进行流量治理。
 
@@ -109,7 +109,7 @@ istio-p+   54832  0.3  0.7 181672 64560 ?        Sl   16:00   0:04 /usr/local/bi
 
 5、验证
 
-这里借用前文[access workload on virtual machine by service entry](traffic/service-entry.md)，其部署了host为`xxx.jd.com`的service entry，并且通过virtaul service将流量全部导给了Kubernetes上的nginx容器（未开启服务网格）。从服务网格上的普通容器，可以访问上述service entry： `curl xxx.jd.com`，返回的是普通nginx容器的内容。
+这里借用前文[access workload on virtual machine by service entry](service-entry.md)，其部署了host为`xxx.jd.com`的service entry，并且通过virtaul service将流量全部导给了Kubernetes上的nginx容器（未开启服务网格）。从服务网格上的普通容器，可以访问上述service entry： `curl xxx.jd.com`，返回的是普通nginx容器的内容。
 
 而从虚拟机上，经过上述配置后，访问 `xxx.jd.com`，也会返回相同的内容，验证了虚拟机上也具备了相同的流量治理能力。
 
