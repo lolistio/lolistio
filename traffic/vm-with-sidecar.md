@@ -61,7 +61,11 @@ $
 $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --ingressIP 192.168.0.59
 ```
 
-> 相对官方文档，这里略过了 servie istiod 的集群外访问方式。官方文档说明是用gateway来进行集群外访问，由于我的集群的load balancer类型的svc，是可以从集群外直接访问external IP的，所以在上面通过`--ingressIP`直接指定了istiod的IP地址。
+生成的文件可以参考 vm-with-sidecar 目录下的文件。其中hosts指定了 `istiod.istio-system.svc` 的地址，而在服务网格上的sidecar，也是通过这个域名访问istiod的，只是其域名解析是通过kube-dns/coredns完成的。
+
+
+
+> 相对官方文档，这里略过了 servie istiod 的集群外访问方式配置。官方文档说明是用gateway来进行集群外访问，由于我的集群的load balancer类型的svc，是可以从集群外直接访问external IP的，所以在上面通过`--ingressIP`直接指定了istiod的IP地址。
 
 4、虚拟机上配置mesh相关文件
 
@@ -118,5 +122,5 @@ istio给出的虚拟机解决方案，目前看是比较完整的：从虚拟机
 
 # 疑问
 
-是否只能通过 workload entry 来显式的指明虚拟机上的服务呢？
-
+1. 是否只能通过 workload entry 来显式的指明虚拟机上的服务呢？
+2. 文档中要求配置的`VM_APP`是用于做什么的？
