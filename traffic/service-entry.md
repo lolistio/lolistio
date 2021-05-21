@@ -234,23 +234,15 @@ NAME     DOMAINS                                MATCH     VIRTUAL SERVICE
 80       xxx.jd.com                             /*        hello2-vs.istio-demo
 ```
 
-# workload entry
-
-## workload entry auto registry
-
-todo: 通过vm上部署的istio-agent来做自动注册为workload entry。
-
-
-
 ## 问题与缺陷
 
-
-1. 只能进行流量控制，不能配置故障注入、、超时、限速等等。
+1. 只能进行流量控制，不能配置故障注入、超时、限速等等。
 2. WorkloadEntry的引入解决了从网格内的POD向VM中的应用请求的流量管理。但是反方向的请求单靠WorkloadEntry是不能解决的，因为VM中的应用无法找到网格内的POD。到目前为止，我们的VM还没有真正意义地实现网格化，只有完全实现网格化，VM内才能为应用提供sidecar，进而通过POD对应的service，将VM应用的请求路由到POD。
-
 
 
 Ref:
 
-- [dns-proxy](https://istio.io/latest/docs/ops/configuration/traffic-management/dns-proxy/)
+- [service entry](https://istio.io/latest/docs/reference/config/networking/service-entry/)
+- [workload entry](https://istio.io/latest/docs/reference/config/networking/workload-entry/)
+- [dns proxy](https://istio.io/latest/docs/ops/configuration/traffic-management/dns-proxy/)
 
