@@ -1,3 +1,5 @@
+> 本文基于istio 1.7版本，不适应于之后的版本。
+
 # 注册中心
 
 默认istio使用k8s作为注册中心，k8s的service、endpoint对应于服务、实例。

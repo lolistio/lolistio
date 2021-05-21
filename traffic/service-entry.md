@@ -187,7 +187,7 @@ metadata:
   namespace: istio-demo
   name: hello2-dr
 spec:
-  host: xxx.ieevee.com
+  host: xxx.jd.com
   subsets:
     - name: vm
       labels:
@@ -203,16 +203,16 @@ metadata:
   name: hello2-vs
 spec:
   hosts:
-    - xxx.ieevee.com
+    - xxx.jd.com
   http:
     - name: http-hello-route
       route:
         - destination:
-            host: xxx.ieevee.com
+            host: xxx.jd.com
             subset: vm
           weight: 0
         - destination:
-            host: xxx.ieevee.com
+            host: xxx.jd.com
             subset: docker
           weight: 100
 ```
