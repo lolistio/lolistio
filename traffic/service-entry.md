@@ -161,6 +161,7 @@ spec:
   selector:
     matchLabels:
       app: hello2-deploy
+      class: docker
   template:
     metadata:
       labels:

@@ -1,12 +1,15 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: WorkloadGroup
 metadata:
-  name: "nginx-vm"
+  name: "nginx"
   namespace: istio-demo
 spec:
   metadata:
     labels:
-      app: "nginx-vm"
+      app: "nginx"
   template:
     serviceAccount: vm
     network: ""
+  probe:
+    httpGet:
+      port: 80

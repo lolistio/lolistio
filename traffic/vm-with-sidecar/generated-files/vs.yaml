@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  namespace: istio-demo
+  name: nginx-dr
+spec:
+  host: nginx.jd.com
+  subsets:
+    - name: vm
+      labels:
+        class: vm
+    - name: docker
+      labels:
+        class: docker
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  namespace: istio-demo
+  name: nginx-vs
+spec:
+  hosts:
+    - nginx.jd.com
+  http:
+    - name: http-nginx-route
+      route:
+        - destination:
+            host: nginx.jd.com
+            subset: vm
+          weight: 100
+        - destination:
+            host: nginx.jd.com
+            subset: docker
+          weight: 0
