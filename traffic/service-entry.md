@@ -62,6 +62,8 @@ istio 默认不会自动解析service entry的域名，所以需要在客户端p
 
 istio（1.10版本）支持了dns流量的劫持，会将DNS请求劫持给pilot-agent。注意，1.10之前的版本，会将DNS请求劫持给envoy，但后面发现不是很稳定，所以从1.10开始是劫持给了pilot-agent，由pilot-agent为service entry的域名分配ip地址。
 
+![dns-interception-in-istio](dns-interception-in-istio.png)
+
 开启方式可以是在configmap istio中增加如下的配置。
 
 ```yaml
