@@ -40,9 +40,35 @@ nginx-58df487b65-4n2qc                        1/1     Running   0          4m38s
 ```
 
 
-# export to
+# exportTo
 
-networking.istio.io/exportTo
+istio的策略（service entry, virtual service 等）支持namespace隔离。默认策略是全服务网格集群内可见，用户可以配置`exportTo`，从而限制其可见范围。
+
+如下，将限制该service entry 仅 namespace istio-demo可见。
+
+```yaml
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: nginx
+  namespace: istio-demo
+spec:
+  exportTo:
+  - .
+  hosts:
+  - nginx.jd.com
+  location: MESH_INTERNAL
+  ports:
+  - name: http
+    number: 80
+    protocol: HTTP
+  resolution: STATIC
+  workloadSelector:
+    labels:
+      app: nginx
+```
+
+如果需要其他namespace可见，则需要在exportTo中增加对应的namespace。
 
 
 Ref：

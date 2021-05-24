@@ -9,7 +9,10 @@ Traffic:
 - [access workload on virtual machine by service entry](traffic/service-entry.md)
 - [access workload from virtual machine by sidecar](traffic/vm-with-sidecar/vm-with-sidecar.md)
 
-<!-- - [Delaying application start until sidecar is ready](traffic/sidecar-sequence.md) -->
-<!-- - [namespace isolation](isolation/isolation.md) -->
+Misc:
+- [isolation](misc/isolation.md)
+<!-- - [Delaying application start until sidecar is ready](misc/sidecar-sequence.md) -->
+
+
 <!-- - [canary upgrade of istio](setup/upgrade/canary-upgrade.md) -->
 
