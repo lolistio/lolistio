@@ -11,7 +11,7 @@ Traffic:
 
 Misc:
 - [isolation](misc/isolation.md)
-<!-- - [Delaying application start until sidecar is ready](misc/sidecar-sequence.md) -->
+- [Delaying application start until sidecar is ready](misc/sidecar-sequence.md)
 
 
 <!-- - [canary upgrade of istio](setup/upgrade/canary-upgrade.md) -->
