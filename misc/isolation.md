@@ -3,8 +3,6 @@
 
 kubectl label ns xxx istio-injection=enable --overwrite
 
-Resource	Label	Enabled value	Disabled value
-Namespace	istio-injection	enabled	disabled
 
 关闭服务网格
 kubectl label namespace default istio-injection-
@@ -15,9 +13,6 @@ kubectl get namespace -L istio-injection
 # Pod级别开关服务网格
 
 可以通过在Pod的label上设置`sidecar.istio.io/inject`为true/false，在Pod级别进行控制是否开启服务网格。
-
-Resource	Label	Enabled value	Disabled value
-Pod	sidecar.istio.io/inject	"true"	"false"
 
 ```yaml
   template:
