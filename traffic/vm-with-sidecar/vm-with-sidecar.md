@@ -237,7 +237,35 @@ spec:
         name: nginx
 ```
 
-Pod创建后，登录到debian Pod，请求 `curl nginx.jd.com`，可以看到返回的是虚拟机和容器的不同内容，说明 service entry能够统一管理不同部署形式的workload。
+由于需要验证的是**从虚拟机访问服务网格的服务**，所以登录到虚拟机上，请求 `curl nginx.jd.com`，可以看到返回的是虚拟机和容器的不同内容，说明 虚拟机能够通过service entry，访问不同部署形式的workload。
+
+这是怎么发生的呢？
+
+sidecar在虚拟机上部署后，会下发iptables 规则，劫持DNS请求的报文给 pilot-agent ；由于pilot-agent目前内置了dns服务器，与容器上的实现类似，其会给 service entry 的hosts分配一个虚拟IP地址（如下 240.240.0.2）。
+
+
+```bash
+# iptables-save  //仅DNS相关表项
+-A OUTPUT -p tcp -j ISTIO_OUTPUT
+-A OUTPUT -p udp -m udp --dport 53 -m owner --uid-owner 113 -j RETURN
+-A OUTPUT -p udp -m udp --dport 53 -m owner --gid-owner 113 -j RETURN
+-A OUTPUT -d 127.0.0.53/32 -p udp -m udp --dport 53 -j REDIRECT --to-ports 15053
+-A ISTIO_OUTPUT ! -d 127.0.0.1/32 -o lo -p tcp -m tcp ! --dport 53 -m owner --uid-owner 113 -j ISTIO_IN_REDIRECT
+# netstat -antpu |grep 15053
+tcp        0      0 127.0.0.1:15053         0.0.0.0:*               LISTEN      111679/pilot-agent
+udp        0      0 127.0.0.1:15053         0.0.0.0:*                           111679/pilot-agent
+# ping nginx.jd.com
+PING nginx.jd.com (240.240.0.2) 56(84) bytes of data.
+# curl nginx.jd.com
+Welcome to nginx on vm204!
+```
+
+如上，可以验证，isito目前已经支持虚拟机加入到服务网格，进行统一治理。
+
+
+当然，由于上面istiod自动创建了workload entry（区别于管理员手动创建wle），因此也实现了从容器里请求网格上的容器+虚拟机资源的需求。
+
+登录到debian Pod，请求 `curl nginx.jd.com`，可以看到返回的是虚拟机和容器的不同内容，说明 service entry能够统一管理不同部署形式的workload。
 
 同样的，也可以配置virtual service和destination rule，将流量全部导到虚拟机。
 

@@ -1,20 +1,28 @@
 > 本文基于istio 1.7版本，不适应于之后的版本。
 
+consul的基础了解，请移步[consul basic](consul-basic.md)
+
 # 注册中心
 
 默认istio使用k8s作为注册中心，k8s的service、endpoint对应于服务、实例。
 
-针对一些还未接入到k8s的Spring Cloud服务，其使用的注册中心可能是consul，如何让k8s集群上的的consumer服务能访问到非k8s集群Provider，是应用在服务网格迁移过程中所面临的问题。istio本身提供了一些机制，来引入外部注册中心的服务。
+针对一些还未接入到服务网格的Spring Cloud服务，其使用的注册中心可能是consul，如何让服务网格上的consumer服务能访问到非服务网格的Provider，是应用在服务网格迁移过程中所面临的问题。istio本身提供了一些机制，来引入外部注册中心的服务。
+
+注意，这里强调是**未接入服务网格**，而不是**未接入k8s**。原因是，应用可以接入k8s，但未关闭Spring Cloud的治理能力，仍然是向consul发起注册。针对这种服务，实际上仍然不能进行在服务网格上进行管理。
 
 ![consul-registry](consul-registry.png)
 
-istio在发展过程中，对于外部注册中心的支持经历了多个阶段：内置支持、MCP、MCP over XDS，最终的计划是通过UDPA接入。目前的istio代码（1.10）是MCP over XDS的方式接入，不过官方没有提供相关的实现参考。
+istio在发展过程中，对于外部注册中心的支持经历了多个阶段：intree支持、MCP、MCP over XDS，最终的计划是通过UDPA接入。目前的istio代码（1.10）是MCP over XDS的方式接入，不过官方没有提供相关的实现参考。
+
+除了将consul作为与kubernetes同级别的注册中心接入，社区还有一种思路，借助service entry，将consul上的服务映射为istio的 service entry，将consul服务的instance作为workload entry，从而帮助服务网格上的服务，去访问不在服务网格的服务。
+
+# 注册中心接入(intree)
 
 istio最后一个intree支持consul作为注册中心的版本是 1.7.8 。
 
 下面记录下 1.7.8 版本使用consul作为注册中心的配置方法。
 
-# consul 部署
+## consul 部署
 
 consul服务以Deployment的形式，部署到k8s的default namespace下。
 
@@ -53,7 +61,7 @@ curl  10.102.67.37:8500/v1/catalog/services
 }
 ```
 
-# istio配置
+## istio配置
 
 注意istio采用1.7.8版本。通过demo profile部署后，修改 registries 为Kubernetes+Consul，以及增加consul server的地址。
 
@@ -69,7 +77,7 @@ istiod：
         - --log_output_level=default:info
 ```
 
-# 验证
+## 验证
 
 demo服务是一个howtodoinjava上的[example](https://howtodoinjava.com/spring-cloud/consul-service-registration-discovery/)修改而来，主要是设置了consul的地址。
 
@@ -100,7 +108,7 @@ curl请求可以成功：
 ```
 
 
-# 问题/缺点
+## 问题/缺点
 
 问题：
 更新pod instance后，sidecar不更新数据。
@@ -109,7 +117,52 @@ curl请求可以成功：
 即使是consul部分service/instance更新，istiod也是全量更新
 
 
-# 实现分析（working）
+# service entry方案
+
+针对consul开发controller，watch consul的service变化，并为service 生成 service entry ，为 service 的 instances 生成 workload entry。
+
+社区有[consul2istio](https://github.com/aeraki-framework/consul2istio)项目，实现了从consul同步到istio的service entry的功能。
+
+不过，该项目将instance直接作为service entry的endpoints，而不是为instance创建对应的wle，所以无法根据wle的label，选择不同的wle，这样会在做流量治理时遇到一些问题：例如无法为不同版本的instance设置流量治理规则，进行灰度发布。
+
+如下是对接consul后，consul2istio创建的service entry，可以看到其 hosts 自动增加了 `.service.consul` 后缀。
+
+```
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  labels:
+    manager: Aeraki
+    registry: consul
+  name: student-service.service.consul
+  namespace: istio-system
+spec:
+  endpoints:
+  - address: 10.244.6.42
+    labels: {}
+    locality: dc1
+    ports:
+      tcp: 9098
+  hosts:
+  - student-service.service.consul
+  location: MESH_INTERNAL
+  ports:
+  - name: tcp
+    number: 9098
+    protocol: TCP
+    targetPort: 9098
+  resolution: STATIC
+```
+
+![consul2istio.jpg](consul2istio.jpg)
+
+在istio本身接入注册中心的机制仍然在快速演变的情况下，`consul2istio`的思路其实挺值得借鉴的。另外，`consul2istio`可以实现增量更新（watch consul变化、每个service entry单独更新）。
+
+
+
+<!-- 接入注册中心的机制每次是所有服务和实例全量push， -->
+
+<!-- ## 实现分析（working）
 
 控制流上来看，istio-discovery会调用consul的api，来获取service及instance，并将其下发给envoy。
 
@@ -225,5 +278,5 @@ pilot/pkg/model/push_context.go:1020
         "ModifyIndex": 30806
     }
 ]
-```
+``` -->
 
