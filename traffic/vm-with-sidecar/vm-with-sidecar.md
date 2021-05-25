@@ -33,7 +33,7 @@ workload group 可以理解为一批有共同特性的虚拟机工作负载。�
 
 ## 开启
 
-istio默认不会开启workload entry自动注册。
+istio默认开启了workload entry自动注册。
 
 开启workload entry 需要在 Deployment istiod 的环境变量设置 `PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION` 和 `PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS` 为 true。
 
