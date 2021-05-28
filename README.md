@@ -2,7 +2,7 @@ lolistio means lol istio, focus on advanced content.
 
 Registry:
 
-- [use consul as istio registry(istio 1.7)](registry/consul/consul.md)
+- [use consul as istio registry(intree or by service entry)](registry/consul/consul.md)
 
 Traffic:
 
@@ -13,6 +13,6 @@ Misc:
 - [isolation](misc/isolation.md)
 - [Delaying application start until sidecar is ready](misc/sidecar-sequence.md)
 
-
+<!-- - [Debug](misc/debug.md) -->
 <!-- - [canary upgrade of istio](setup/upgrade/canary-upgrade.md) -->
 
