@@ -8,6 +8,7 @@ Traffic:
 
 - [access workload on virtual machine by service entry](traffic/service-entry.md)
 - [access workload from virtual machine by sidecar](traffic/vm-with-sidecar/vm-with-sidecar.md)
+- [Fault Injection](traffic/fault-injection/fault-injection.md)
 
 Misc:
 - [isolation](misc/isolation.md)

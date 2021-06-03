@@ -1,0 +1,121 @@
+[
+    {
+        "name": "80",
+        "virtualHosts": [
+            {
+                "name": "allow_any",
+                "domains": [
+                    "*"
+                ],
+                "routes": [
+                    {
+                        "name": "allow_any",
+                        "match": {
+                            "prefix": "/"
+                        },
+                        "route": {
+                            "cluster": "PassthroughCluster",
+                            "timeout": "0s",
+                            "maxGrpcTimeout": "0s"
+                        }
+                    }
+                ],
+                "includeRequestAttemptCount": true
+            },
+            {
+                "name": "nginx.jd.com:80",
+                "domains": [
+                    "nginx.jd.com",
+                    "nginx.jd.com:80",
+                    "240.240.0.2",
+                    "240.240.0.2:80"
+                ],
+                "routes": [
+                    {
+                        "match": {
+                            "prefix": "/",
+                            "caseSensitive": true,
+                            "headers": [
+                                {
+                                    "name": "end-user",
+                                    "exactMatch": "jason"
+                                }
+                            ]
+                        },
+                        "route": {
+                            "cluster": "outbound|80|vm|nginx.jd.com",
+                            "timeout": "0s",
+                            "retryPolicy": {
+                                "retryOn": "connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes",
+                                "numRetries": 2,
+                                "retryHostPredicate": [
+                                    {
+                                        "name": "envoy.retry_host_predicates.previous_hosts"
+                                    }
+                                ],
+                                "hostSelectionRetryMaxAttempts": "5",
+                                "retriableStatusCodes": [
+                                    503
+                                ]
+                            },
+                            "maxGrpcTimeout": "0s"
+                        },
+                        "metadata": {
+                            "filterMetadata": {
+                                "istio": {
+                                    "config": "/apis/networking.istio.io/v1alpha3/namespaces/istio-demo/virtual-service/ratings"
+                                }
+                            }
+                        },
+                        "decorator": {
+                            "operation": "nginx.jd.com:80/*"
+                        },
+                        "typedPerFilterConfig": {
+                            "envoy.filters.http.fault": {
+                                "@type": "type.googleapis.com/envoy.extensions.filters.http.fault.v3.HTTPFault",
+                                "delay": {
+                                    "fixedDelay": "7s",
+                                    "percentage": {
+                                        "numerator": 1000000,
+                                        "denominator": "MILLION"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "match": {
+                            "prefix": "/"
+                        },
+                        "route": {
+                            "cluster": "outbound|80|docker|nginx.jd.com",
+                            "timeout": "0s",
+                            "retryPolicy": {
+                                "retryOn": "connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes",
+                                "numRetries": 2,
+                                "retryHostPredicate": [
+                                    {
+                                        "name": "envoy.retry_host_predicates.previous_hosts"
+                                    }
+                                ],
+                                "hostSelectionRetryMaxAttempts": "5",
+                                "retriableStatusCodes": [
+                                    503
+                                ]
+                            },
+                            "maxGrpcTimeout": "0s"
+                        },
+                        "metadata": {
+                            "filterMetadata": {
+                                "istio": {
+                                    "config": "/apis/networking.istio.io/v1alpha3/namespaces/istio-demo/virtual-service/ratings"
+                                }
+                            }
+                        },
+                        "decorator": {
+                            "operation": "nginx.jd.com:80/*"
+                        }
+                    }
+                ],
+                "includeRequestAttemptCount": true
+            }
