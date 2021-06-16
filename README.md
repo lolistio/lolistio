@@ -10,6 +10,10 @@ Traffic:
 - [access workload from virtual machine by sidecar](traffic/vm-with-sidecar/vm-with-sidecar.md)
 - [Fault Injection](traffic/fault-injection/fault-injection.md)
 
+Policy:
+
+- [Rate Limit](policy/ratelimit/ratelimit.md)
+
 Misc:
 - [isolation](misc/isolation.md)
 - [Delaying application start until sidecar is ready](misc/sidecar-sequence.md)
