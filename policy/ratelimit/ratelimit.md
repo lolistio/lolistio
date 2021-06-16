@@ -8,7 +8,12 @@
   - [针对特定route](#%E9%92%88%E5%AF%B9%E7%89%B9%E5%AE%9Aroute)
 - [global ratelimit](#global-ratelimit)
   - [部署限流器](#%E9%83%A8%E7%BD%B2%E9%99%90%E6%B5%81%E5%99%A8)
-  - [](#)
+  - [配置gateway限流规则](#%E9%85%8D%E7%BD%AEgateway%E9%99%90%E6%B5%81%E8%A7%84%E5%88%99)
+  - [部署服务](#%E9%83%A8%E7%BD%B2%E6%9C%8D%E5%8A%A1)
+  - [部署gateway](#%E9%83%A8%E7%BD%B2gateway)
+  - [部署virtual service](#%E9%83%A8%E7%BD%B2virtual-service)
+  - [验证ratelimit生效](#%E9%AA%8C%E8%AF%81ratelimit%E7%94%9F%E6%95%88)
+  - [验证global ratelimit生效](#%E9%AA%8C%E8%AF%81global-ratelimit%E7%94%9F%E6%95%88)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
