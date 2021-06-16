@@ -184,15 +184,81 @@ $ istioctl pc route nginx-f89759699-5zv98 --name "inbound|80||" -o yaml
 
 global ratelimit的特点是，其限流器是一个公共的gRPC服务，使用同一个限流器的pods，都受这个限流器的限制，并且互相之间是共享一个限流QPS的。
 
+下面通过对gateway配置global限流器，来演示global ratelimit的应用。
+
 ## 部署限流器
 
 首先需要部署一个限流服务。这里使用的是istio示例里指定的[ratelimit](https://github.com/envoyproxy/ratelimit)。
 
-把这个服务部署到 namespace istio-system ，部署后会有一个service ratelimit ，其gRPC端口为8081，这个即为请求的限流API。
+相关配置文件为 [ratelimit-config.yaml](global/ratelimit-config.yaml) [ratelimit.yaml](global/ratelimit.yaml)。
 
-## 
+服务部署到 namespace istio-system ，部署后会有一个service ratelimit ，其gRPC端口为8081，这个即为请求的限流API。
+
+## 配置gateway限流规则
+
+相关配置文件为 [filter-ratelimit.yaml](global/filter-ratelimit.yaml) 、 [filter-ratelimit-svc.yaml](global/filter-ratelimit-svc.yaml)。
+
+注意 [filter-ratelimit-svc.yaml](global/filter-ratelimit-svc.yaml) 的配置与官网不同，目前(1.10版本)的文档是有问题的，其指定的vhost.name使用了通配符，实际上是不支持的。上面的示例中删除了这部分，这样可以实现vhost.name通配。
+
+也可以将其改为 `httpbin.example.com:80`，但这样就只为host为 `httpbin.example.com` 的请求生效了。
+
+```yaml
+      match:
+        context: GATEWAY
+        routeConfiguration:
+          vhost:
+            name: "*:80"
+            route:
+              action: ANY
+```
+
+## 部署服务
+
+使用httpbin作为测试服务，配置文件为 [httpbin.yaml](global/httpbin.yaml)。
+
+## 部署gateway
+
+配置文件为 [gateways.yaml](global/gateways.yaml)。设置其hosts为 `httpbin.example.com`。
+
+## 部署virtual service
+
+配置文件为 [virtualservices.yaml](global/virtualservices.yaml)。设置其hosts为 httpbin.example.com，关联gateway httpbin-gateway。
+
+## 验证ratelimit生效
+
+客户端请求 `curl -i -H "Host: httpbin.example.com" http://{ingress gateway external ip}/status/200`，可以观察到，一分钟内，第一个请求返回的是200，后续的请求均返回 `429 Too Many Requests`。
+
+这样可以验证global ratelimit已经生效，但无法验证其是global的。
+
+## 验证global ratelimit生效
+
+将ingress gateway扩容为2副本。
 
 
+1. 客户端请求 `curl -i -H "Host: httpbin.example.com" http://{ingress gateway pod 1 ip}/status/200`，可以观察到，第一个请求返回的是200，后续的请求均返回 `429 Too Many Requests`。;
+2. 在一分钟内，客户端请求 `curl -i -H "Host: httpbin.example.com" http://{ingress gateway pod 2 ip}/status/200`，可以观察到，请求均返回 `429 Too Many Requests`。
+
+这个现象与local ratelimit是不一样的，验证了global属性。
+
+```yaml
+[root@debian-77dc9c5f4f-nscvz /]# curl -i -H "Host: httpbin.example.com" 10.244.2.104:8080/status/200
+HTTP/1.1 200 OK
+server: envoy
+date: Wed, 16 Jun 2021 11:49:10 GMT
+content-type: text/html; charset=utf-8
+access-control-allow-origin: *
+access-control-allow-credentials: true
+content-length: 0
+x-envoy-upstream-service-time: 5
+
+[root@debian-77dc9c5f4f-nscvz /]# curl -i -H "Host: httpbin.example.com" 10.244.6.71:8080/status/200
+HTTP/1.1 429 Too Many Requests
+x-envoy-ratelimited: true
+date: Wed, 16 Jun 2021 11:49:13 GMT
+server: envoy
+content-length: 0
+x-envoy-upstream-service-time: 2
+```
 
 Ref：
 
