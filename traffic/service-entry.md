@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [service entry](#service-entry)
+  - [访问集群外的服务](#%E8%AE%BF%E9%97%AE%E9%9B%86%E7%BE%A4%E5%A4%96%E7%9A%84%E6%9C%8D%E5%8A%A1)
+  - [域名解析](#%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90)
+  - [从VM迁移到k8s容器](#%E4%BB%8Evm%E8%BF%81%E7%A7%BB%E5%88%B0k8s%E5%AE%B9%E5%99%A8)
+  - [流量治理](#%E6%B5%81%E9%87%8F%E6%B2%BB%E7%90%86)
+  - [问题与缺陷](#%E9%97%AE%E9%A2%98%E4%B8%8E%E7%BC%BA%E9%99%B7)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 > 本文基于istio 1.10版本。
 
 # service entry

@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [注册中心](#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83)
+- [注册中心接入(intree)](#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%8E%A5%E5%85%A5intree)
+  - [consul 部署](#consul-%E9%83%A8%E7%BD%B2)
+  - [istio配置](#istio%E9%85%8D%E7%BD%AE)
+  - [验证](#%E9%AA%8C%E8%AF%81)
+  - [问题/缺点](#%E9%97%AE%E9%A2%98%E7%BC%BA%E7%82%B9)
+- [service entry方案](#service-entry%E6%96%B9%E6%A1%88)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 > 本文基于istio 1.7版本，不适应于之后的版本。
 
 consul的基础了解，请移步[consul basic](consul-basic.md)

@@ -1,3 +1,12 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [注入延时](#%E6%B3%A8%E5%85%A5%E5%BB%B6%E6%97%B6)
+- [注入故障](#%E6%B3%A8%E5%85%A5%E6%95%85%E9%9A%9C)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 
 # 注入延时

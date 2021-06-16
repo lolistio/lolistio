@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [从虚拟机访问服务网格上的应用](#%E4%BB%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8)
+- [架构](#%E6%9E%B6%E6%9E%84)
+- [自动注册workload entry](#%E8%87%AA%E5%8A%A8%E6%B3%A8%E5%86%8Cworkload-entry)
+  - [开启](#%E5%BC%80%E5%90%AF)
+- [部署步骤记录](#%E9%83%A8%E7%BD%B2%E6%AD%A5%E9%AA%A4%E8%AE%B0%E5%BD%95)
+- [总结](#%E6%80%BB%E7%BB%93)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 > 本文基于istio 1.10版本。
 
 # 从虚拟机访问服务网格上的应用

@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [consul介绍](#consul%E4%BB%8B%E7%BB%8D)
+- [k8s上部署consul](#k8s%E4%B8%8A%E9%83%A8%E7%BD%B2consul)
+- [服务注册](#%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C)
+  - [配置文件方式](#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%96%B9%E5%BC%8F)
+- [服务发现](#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0)
+  - [DNS方式](#dns%E6%96%B9%E5%BC%8F)
+  - [API方式](#api%E6%96%B9%E5%BC%8F)
+  - [健康检测](#%E5%81%A5%E5%BA%B7%E6%A3%80%E6%B5%8B)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 # consul介绍
 

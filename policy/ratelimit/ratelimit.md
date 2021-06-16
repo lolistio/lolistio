@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [local ratelimit](#local-ratelimit)
+  - [针对service](#%E9%92%88%E5%AF%B9service)
+  - [针对pod](#%E9%92%88%E5%AF%B9pod)
+  - [针对特定route](#%E9%92%88%E5%AF%B9%E7%89%B9%E5%AE%9Aroute)
+- [global ratelimit](#global-ratelimit)
+  - [部署限流器](#%E9%83%A8%E7%BD%B2%E9%99%90%E6%B5%81%E5%99%A8)
+  - [](#)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 
 # local ratelimit
