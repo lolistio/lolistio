@@ -268,4 +268,4 @@ x-envoy-upstream-service-time: 2
 Ref：
 
 - [Enabling Rate Limits using Envoy](https://istio.io/latest/docs/tasks/policy-enforcement/rate-limit/)
-- [](https://github.com/istio/istio/issues/32381)
+- [issues 32381](https://github.com/istio/istio/issues/32381)
