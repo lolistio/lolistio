@@ -23,10 +23,10 @@
                 "includeRequestAttemptCount": true
             },
             {
-                "name": "nginx.jd.com:80",
+                "name": "nginx.example.com:80",
                 "domains": [
-                    "nginx.jd.com",
-                    "nginx.jd.com:80",
+                    "nginx.example.com",
+                    "nginx.example.com:80",
                     "240.240.0.2",
                     "240.240.0.2:80"
                 ],
@@ -43,7 +43,7 @@
                             ]
                         },
                         "route": {
-                            "cluster": "outbound|80|vm|nginx.jd.com",
+                            "cluster": "outbound|80|vm|nginx.example.com",
                             "timeout": "0s",
                             "retryPolicy": {
                                 "retryOn": "connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes",
@@ -68,7 +68,7 @@
                             }
                         },
                         "decorator": {
-                            "operation": "nginx.jd.com:80/*"
+                            "operation": "nginx.example.com:80/*"
                         },
                         "typedPerFilterConfig": {
                             "envoy.filters.http.fault": {
@@ -88,7 +88,7 @@
                             "prefix": "/"
                         },
                         "route": {
-                            "cluster": "outbound|80|docker|nginx.jd.com",
+                            "cluster": "outbound|80|docker|nginx.example.com",
                             "timeout": "0s",
                             "retryPolicy": {
                                 "retryOn": "connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes",
@@ -113,7 +113,7 @@
                             }
                         },
                         "decorator": {
-                            "operation": "nginx.jd.com:80/*"
+                            "operation": "nginx.example.com:80/*"
                         }
                     }
                 ],

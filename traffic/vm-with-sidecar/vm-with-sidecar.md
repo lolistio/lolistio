@@ -209,7 +209,7 @@ metadata:
   namespace: istio-demo
 spec:
   hosts:
-  - nginx.jd.com
+  - nginx.example.com
   location: MESH_INTERNAL
   ports:
   - name: http
@@ -221,7 +221,7 @@ spec:
       app: nginx
 ```
 
-登录到namespace istio-demo 服务网格上的debian Pod，请求 `curl nginx.jd.com`，可以看到返回的是虚拟机上的`Welcome to nginx on vm204!`。
+登录到namespace istio-demo 服务网格上的debian Pod，请求 `curl nginx.example.com`，可以看到返回的是虚拟机上的`Welcome to nginx on vm204!`。
 
 接下来验证下通过service entry来统一管理虚拟机和Pod容器上的workload。
 
@@ -250,7 +250,7 @@ spec:
         name: nginx
 ```
 
-由于需要验证的是**从虚拟机访问服务网格的服务**，所以登录到虚拟机上，请求 `curl nginx.jd.com`，可以看到返回的是虚拟机和容器的不同内容，说明 虚拟机能够通过service entry，访问不同部署形式的workload。
+由于需要验证的是**从虚拟机访问服务网格的服务**，所以登录到虚拟机上，请求 `curl nginx.example.com`，可以看到返回的是虚拟机和容器的不同内容，说明 虚拟机能够通过service entry，访问不同部署形式的workload。
 
 这是怎么发生的呢？
 
@@ -267,9 +267,9 @@ sidecar在虚拟机上部署后，会下发iptables 规则，劫持DNS请求的�
 # netstat -antpu |grep 15053
 tcp        0      0 127.0.0.1:15053         0.0.0.0:*               LISTEN      111679/pilot-agent
 udp        0      0 127.0.0.1:15053         0.0.0.0:*                           111679/pilot-agent
-# ping nginx.jd.com
-PING nginx.jd.com (240.240.0.2) 56(84) bytes of data.
-# curl nginx.jd.com
+# ping nginx.example.com
+PING nginx.example.com (240.240.0.2) 56(84) bytes of data.
+# curl nginx.example.com
 Welcome to nginx on vm204!
 ```
 
@@ -278,7 +278,7 @@ Welcome to nginx on vm204!
 
 当然，由于上面istiod自动创建了workload entry（区别于管理员手动创建wle），因此也实现了从容器里请求网格上的容器+虚拟机资源的需求。
 
-登录到debian Pod，请求 `curl nginx.jd.com`，可以看到返回的是虚拟机和容器的不同内容，说明 service entry能够统一管理不同部署形式的workload。
+登录到debian Pod，请求 `curl nginx.example.com`，可以看到返回的是虚拟机和容器的不同内容，说明 service entry能够统一管理不同部署形式的workload。
 
 同样的，也可以配置virtual service和destination rule，将流量全部导到虚拟机。
 
@@ -289,7 +289,7 @@ metadata:
   namespace: istio-demo
   name: nginx-dr
 spec:
-  host: nginx.jd.com
+  host: nginx.example.com
   subsets:
     - name: vm
       labels:
@@ -305,21 +305,21 @@ metadata:
   name: nginx-vs
 spec:
   hosts:
-    - nginx.jd.com
+    - nginx.example.com
   http:
     - name: http-nginx-route
       route:
         - destination:
-            host: nginx.jd.com
+            host: nginx.example.com
             subset: vm
           weight: 100
         - destination:
-            host: nginx.jd.com
+            host: nginx.example.com
             subset: docker
           weight: 0
 ```
 
-如上，virtual service将流量 100% 导向了 subset vm的destination，也就是label为 `class=vm` 的workload。此时从debian pod请求`curl nginx.jd.com`，返回的总是虚拟机上的`Welcome to nginx on vm204!`。
+如上，virtual service将流量 100% 导向了 subset vm的destination，也就是label为 `class=vm` 的workload。此时从debian pod请求`curl nginx.example.com`，返回的总是虚拟机上的`Welcome to nginx on vm204!`。
 
 # 总结
 

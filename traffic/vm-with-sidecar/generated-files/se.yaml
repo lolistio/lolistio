@@ -5,7 +5,7 @@ metadata:
   namespace: istio-demo
 spec:
   hosts:
-  - nginx.jd.com
+  - nginx.example.com
     #- xxx.istio-demo.svc.cluster.local
   location: MESH_INTERNAL
   ports:

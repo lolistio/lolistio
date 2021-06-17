@@ -39,7 +39,7 @@ metadata:
   namespace: istio-demo
 spec:
   hosts:
-  - xxx.jd.com
+  - xxx.example.com
   location: MESH_INTERNAL
   ports:
   - name: http
@@ -69,7 +69,7 @@ spec:
 
 ## 域名解析
 
-istio 默认不会自动解析service entry的域名，所以需要在客户端pod上手动配置其`/etc/hosts`文件，增加hosts记录 `1.1.1.1 xxx.jd.com`，其中地址可以随意指定，目的是完成域名解析后，请求报文会被iptables劫持给envoy，由envoy基于hosts进行转发。
+istio 默认不会自动解析service entry的域名，所以需要在客户端pod上手动配置其`/etc/hosts`文件，增加hosts记录 `1.1.1.1 xxx.example.com`，其中地址可以随意指定，目的是完成域名解析后，请求报文会被iptables劫持给envoy，由envoy基于hosts进行转发。
 
 这里有一个疑问，不是说envoy接管了所有流量吗？为什么DNS解析的没有通过envoy解析呢？默认istio只是劫持了tcp流量，而DNS默认是通过udp发送的，所以不会经过envoy处理。
 
@@ -87,7 +87,7 @@ istio（1.10版本）支持了dns流量的劫持，会将DNS请求劫持给pilot
         ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 ```
 
-开启后，在istio-demo下服务网格内的Pod，可以通过域名 `xxx.jd.com` 访问虚拟机192.168.0.204上的nginx服务。
+开启后，在istio-demo下服务网格内的Pod，可以通过域名 `xxx.example.com` 访问虚拟机192.168.0.204上的nginx服务。
 
 从实现上来看，iptables会将DNS请求劫持给pilot-agent。
 
@@ -109,8 +109,8 @@ pilot-agent会从一个E类地址（240.240.0.0/16）为service entry分配IP地
 
 
 ```bash
-[root@debian-77dc9c5f4f-q2hb2 /]# ping xxx.jd.com
-PING xxx.jd.com (240.240.0.1) 56(84) bytes of data
+[root@debian-77dc9c5f4f-q2hb2 /]# ping xxx.example.com
+PING xxx.example.com (240.240.0.1) 56(84) bytes of data
 ```
 
 注意，只有满足这三种情况才会为service entry自动分配IP地址。
@@ -152,7 +152,7 @@ func autoAllocateIPs(services []*model.Service) []*model.Service {
 域名可以解析后，从服务网格的容器作为客户端进行请求，可以访问到虚拟机上的服务(虚拟机上的nginx主页改为了`Welcome to nginx on vm204!`)。
 
 ```bash
-[root@debian-77dc9c5f4f-q2hb2 /]# curl xxx.jd.com
+[root@debian-77dc9c5f4f-q2hb2 /]# curl xxx.example.com
 Welcome to nginx on vm204!
 ```
 
@@ -203,7 +203,7 @@ metadata:
   namespace: istio-demo
   name: hello2-dr
 spec:
-  host: xxx.jd.com
+  host: xxx.example.com
   subsets:
     - name: vm
       labels:
@@ -219,16 +219,16 @@ metadata:
   name: hello2-vs
 spec:
   hosts:
-    - xxx.jd.com
+    - xxx.example.com
   http:
     - name: http-hello-route
       route:
         - destination:
-            host: xxx.jd.com
+            host: xxx.example.com
             subset: vm
           weight: 0
         - destination:
-            host: xxx.jd.com
+            host: xxx.example.com
             subset: docker
           weight: 100
 ```
@@ -242,12 +242,12 @@ NAME     DOMAINS                                MATCH     VIRTUAL SERVICE
 80       xxx                                    /*
 ```
 
-所以，在上面的示例中，需要将hosts设置为 `xxx.jd.com`，这样VS是配置在DOMAIN `xxx.jd.com`上的。如上，设置VS将流量全部到给subset docker，从服务网格的客户端发送请求，可以验证流量都导给了容器上的标准nginx。
+所以，在上面的示例中，需要将hosts设置为 `xxx.example.com`，这样VS是配置在DOMAIN `xxx.example.com`上的。如上，设置VS将流量全部到给subset docker，从服务网格的客户端发送请求，可以验证流量都导给了容器上的标准nginx。
 
 ```bash
 # istioctl proxy-config route  debian-77dc9c5f4f-wxw6x --name  80
 NAME     DOMAINS                                MATCH     VIRTUAL SERVICE
-80       xxx.jd.com                             /*        hello2-vs.istio-demo
+80       xxx.example.com                             /*        hello2-vs.istio-demo
 ```
 
 ## 问题与缺陷

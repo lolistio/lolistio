@@ -4,7 +4,7 @@ metadata:
   namespace: istio-demo
   name: nginx-dr
 spec:
-  host: nginx.jd.com
+  host: nginx.example.com
   subsets:
     - name: vm
       labels:
@@ -20,15 +20,15 @@ metadata:
   name: nginx-vs
 spec:
   hosts:
-    - nginx.jd.com
+    - nginx.example.com
   http:
     - name: http-nginx-route
       route:
         - destination:
-            host: nginx.jd.com
+            host: nginx.example.com
             subset: vm
           weight: 100
         - destination:
-            host: nginx.jd.com
+            host: nginx.example.com
             subset: docker
           weight: 0

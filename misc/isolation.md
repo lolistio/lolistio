@@ -61,7 +61,7 @@ spec:
   exportTo:
   - .
   hosts:
-  - nginx.jd.com
+  - nginx.example.com
   location: MESH_INTERNAL
   ports:
   - name: http

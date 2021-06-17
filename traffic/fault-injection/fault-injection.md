@@ -19,7 +19,7 @@ metadata:
   name: ratings
 spec:
   hosts:
-  - nginx.jd.com
+  - nginx.example.com
   http:
   - match:
     - headers:
@@ -32,18 +32,18 @@ spec:
         fixedDelay: 7s
     route:
     - destination:
-        host: nginx.jd.com
+        host: nginx.example.com
         subset: vm
   - route:
     - destination:
-        host: nginx.jd.com
+        host: nginx.example.com
         subset: docker
 ```
 
 从服务网格上的vm来发起请求，可以看到会有7秒的延迟。
 
 ```bash
-$ time curl -H "end-user: jason" nginx.jd.com
+$ time curl -H "end-user: jason" nginx.example.com
 Welcome to nginx on vm204!
 
 real	0m7.015s
@@ -56,8 +56,8 @@ sys	0m0.007s
 ```bash
 $ istioctl proxy-config route debian-77dc9c5f4f-qhtnh  --name 80
 NAME     DOMAINS                               MATCH     VIRTUAL SERVICE
-80       nginx.jd.com                          /*        ratings.istio-demo
-80       nginx.jd.com                          /*        ratings.istio-demo
+80       nginx.example.com                          /*        ratings.istio-demo
+80       nginx.example.com                          /*        ratings.istio-demo
 ```
 
 
@@ -72,7 +72,7 @@ metadata:
   name: ratings
 spec:
   hosts:
-  - nginx.jd.com
+  - nginx.example.com
   http:
   - match:
     - headers:
@@ -85,18 +85,18 @@ spec:
           value: 100
     route:
     - destination:
-        host: nginx.jd.com
+        host: nginx.example.com
         subset: vm
   - route:
     - destination:
-        host: nginx.jd.com
+        host: nginx.example.com
         subset: docker
 ```
 
 从服务网格上的vm来发起请求，可以看到会返回500。
 
 ```bash
-$ curl -i -H "end-user: jason" nginx.jd.com
+$ curl -i -H "end-user: jason" nginx.example.com
 HTTP/1.1 500 Internal Server Error
 content-length: 18
 content-type: text/plain
