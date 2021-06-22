@@ -1,4 +1,3 @@
-lolistio means lol istio, focus on advanced content.
 
 Registry:
 

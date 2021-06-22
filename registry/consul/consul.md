@@ -12,8 +12,6 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-> 本文基于istio 1.7版本，不适应于之后的版本。
-
 consul的基础了解，请移步[consul basic](consul-basic.md)
 
 # 注册中心
