@@ -1,0 +1,23 @@
+{
+    "ID": "student-service-e5",
+    "Name": "student-service",
+    "Tags": [],
+    "Meta": {},
+    "Port": 9098,
+    "Address": "127.0.0.1",
+    "TaggedAddresses": {
+        "lan_ipv4": {
+            "Address": "127.0.0.1",
+            "Port": 9098
+        },
+        "wan_ipv4": {
+            "Address": "127.0.0.1",
+            "Port": 9098
+        }
+    },
+    "Weights": {
+        "Passing": 1,
+        "Warning": 1
+    },
+    "EnableTagOverride": false
+}

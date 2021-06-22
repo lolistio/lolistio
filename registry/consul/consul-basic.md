@@ -109,6 +109,8 @@ consul-6c464f5d4b-gv52l.node.dc1.consul. 0 IN TXT "consul-network-segment="
 
 也可以通过API方式请求
 
+### 查询所有service
+
 ```bash
 $ curl http://127.0.0.1:8500/v1/catalog/services
 {
@@ -117,6 +119,10 @@ $ curl http://127.0.0.1:8500/v1/catalog/services
         "rails"
     ]
 }
+```
+
+### 查询某个service详情
+```bash
 $ curl http://127.0.0.1:8500/v1/catalog/service/web
 [
     {
@@ -125,6 +131,11 @@ $ curl http://127.0.0.1:8500/v1/catalog/service/web
         "Address": "127.0.0.1",
         "Datacenter": "dc1",
 ...
+```
+
+### 查询某个service健康状况
+
+```bash
 $ curl 127.0.0.1:8500/v1/health/service/web
 [
     {
@@ -145,6 +156,19 @@ $ curl 127.0.0.1:8500/v1/health/service/web
         ]
 ```
 
+### 注册service
+
+[student.json](student.json)
+
+```bash
+$ curl --request PUT --data @student.json "http://192.168.0.54:8500/v1/agent/service/register?replace-existing-checks=true"
+```
+
+### 注销service
+
+```bash
+$ curl --request PUT http://192.168.0.54:8500/v1/agent/service/deregister/student-service
+```
 
 ## 健康检测
 
