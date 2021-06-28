@@ -9,6 +9,11 @@
 - [服务发现](#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0)
   - [DNS方式](#dns%E6%96%B9%E5%BC%8F)
   - [API方式](#api%E6%96%B9%E5%BC%8F)
+    - [查询所有service](#%E6%9F%A5%E8%AF%A2%E6%89%80%E6%9C%89service)
+    - [查询某个service详情](#%E6%9F%A5%E8%AF%A2%E6%9F%90%E4%B8%AAservice%E8%AF%A6%E6%83%85)
+    - [查询某个service健康状况](#%E6%9F%A5%E8%AF%A2%E6%9F%90%E4%B8%AAservice%E5%81%A5%E5%BA%B7%E7%8A%B6%E5%86%B5)
+    - [注册service](#%E6%B3%A8%E5%86%8Cservice)
+    - [注销service](#%E6%B3%A8%E9%94%80service)
   - [健康检测](#%E5%81%A5%E5%BA%B7%E6%A3%80%E6%B5%8B)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
