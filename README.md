@@ -1,7 +1,7 @@
 
 Registry:
 
-- [use consul as istio registry(intree or by service entry)](registry/consul/consul.md)
+- [Use consul as istio registry(intree or by service entry)](registry/consul/consul.md)
 
 Traffic:
 
@@ -14,8 +14,9 @@ Policy:
 - [Rate Limit](policy/ratelimit/ratelimit.md)
 
 Misc:
-- [isolation](misc/isolation.md)
+- [Isolation](misc/isolation.md)
 - [Delaying application start until sidecar is ready](misc/sidecar-sequence.md)
+- [Health check](misc/isolation.md)
 
 <!-- - [Debug](misc/debug.md) -->
 <!-- - [canary upgrade of istio](setup/upgrade/canary-upgrade.md) -->
