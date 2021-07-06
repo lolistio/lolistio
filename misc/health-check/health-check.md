@@ -55,9 +55,24 @@ spec:
       value: '{"/app-health/liveness-http/livez":{"httpGet":{"path":"/foo","port":8001,"scheme":"HTTP"},"timeoutSeconds":1}}'
 ```
 
-## 关闭自动
+## 关闭app conatiner probe更改
 
-为pod的spec中设置 `sidecar.istio.io/rewriteAppHTTPProbers: "false"` ，istio webhook会跳过更改probe。（用途？）
+为pod的spec的annotations中设置 `sidecar.istio.io/rewriteAppHTTPProbers: "false"` ，istio webhook会跳过更改probe。（用途？）
+
+```yaml
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "false"
+      labels:
+        app: liveness-http
+        version: v1
+    spec:
+      containers:
+      - image: docker.io/istio/health:example
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+```
 
 # 代码实现
 
