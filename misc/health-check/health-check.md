@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [健康监测](#%E5%81%A5%E5%BA%B7%E7%9B%91%E6%B5%8B)
+- [验证](#%E9%AA%8C%E8%AF%81)
+  - [开启STRICT mtls mode](#%E5%BC%80%E5%90%AFstrict-mtls-mode)
+  - [部署服务](#%E9%83%A8%E7%BD%B2%E6%9C%8D%E5%8A%A1)
+  - [查看pod配置](#%E6%9F%A5%E7%9C%8Bpod%E9%85%8D%E7%BD%AE)
+  - [关闭自动](#%E5%85%B3%E9%97%AD%E8%87%AA%E5%8A%A8)
+- [代码实现](#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0)
+- [redinessProbe、startupProbe](#redinessprobestartupprobe)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 健康监测
 Kubernetes支持command、tcp、http三种健康监测的机制。当应用mesh化后，其中command、tcp的健康监测不受影响，但是http**可能**会受影响。
 
