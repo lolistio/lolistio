@@ -185,6 +185,12 @@ $ istioctl pc route nginx-f89759699-5zv98 --name "inbound|80||" -o yaml
 ...
 ```
 
+## 针对url路径/方法/源IP
+
+envoy filter可以通过descriptor，设置针对url路径、请求方法、源IP的限流策略。
+
+具体参考 [path](descriptor/path.yaml)、[method](descriptor/method.yaml)、[remote-address](descriptor/remote_address.yaml)。
+
 # global ratelimit
 
 global ratelimit的特点是，其限流器是一个公共的gRPC服务，使用同一个限流器的pods，都受这个限流器的限制，并且互相之间是共享一个限流QPS的。
