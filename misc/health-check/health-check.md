@@ -7,7 +7,7 @@
   - [开启STRICT mtls mode](#%E5%BC%80%E5%90%AFstrict-mtls-mode)
   - [部署服务](#%E9%83%A8%E7%BD%B2%E6%9C%8D%E5%8A%A1)
   - [查看pod配置](#%E6%9F%A5%E7%9C%8Bpod%E9%85%8D%E7%BD%AE)
-  - [关闭自动](#%E5%85%B3%E9%97%AD%E8%87%AA%E5%8A%A8)
+  - [关闭app conatiner probe更改](#%E5%85%B3%E9%97%ADapp-conatiner-probe%E6%9B%B4%E6%94%B9)
 - [代码实现](#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0)
 - [redinessProbe、startupProbe](#redinessprobestartupprobe)
 

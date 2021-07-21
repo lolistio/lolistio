@@ -6,6 +6,7 @@
   - [针对service](#%E9%92%88%E5%AF%B9service)
   - [针对pod](#%E9%92%88%E5%AF%B9pod)
   - [针对特定route](#%E9%92%88%E5%AF%B9%E7%89%B9%E5%AE%9Aroute)
+  - [针对url路径/方法/源IP](#%E9%92%88%E5%AF%B9url%E8%B7%AF%E5%BE%84%E6%96%B9%E6%B3%95%E6%BA%90ip)
 - [global ratelimit](#global-ratelimit)
   - [部署限流器](#%E9%83%A8%E7%BD%B2%E9%99%90%E6%B5%81%E5%99%A8)
   - [配置gateway限流规则](#%E9%85%8D%E7%BD%AEgateway%E9%99%90%E6%B5%81%E8%A7%84%E5%88%99)

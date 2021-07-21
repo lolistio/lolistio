@@ -22,7 +22,7 @@ Policy:
 
 Envoy Filter:
 
-- [Wasm](envoyfilter/wasm/wasm.md)
+- [Wasm Demo](envoyfilter/wasm/wasm.md)
 
 Misc:
 - [Isolation](misc/isolation.md)

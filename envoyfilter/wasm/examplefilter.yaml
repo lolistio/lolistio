@@ -1,0 +1,38 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: examplefilter
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND
+      proxy:
+        proxyVersion: '^1\.10.*'
+      listener:
+        portNumber: 80
+        filterChain:
+          filter:
+            name: envoy.filters.network.http_connection_manager
+            subFilter:
+              name: envoy.filters.http.router
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.filters.http.wasm
+        typed_config:
+          "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+          type_url: type.googleapis.com/envoy.extensions.filters.network.wasm.v3.Wasm
+          value:
+            config:
+              root_id: add_header
+              vm_config:
+                code:
+                  local:
+                    filename: /var/local/lib/wasm-filters/optimized.wasm
+                runtime: envoy.wasm.runtime.v8
+                vm_id: "my_vm_id"
+                allow_precompiled: false
+  workloadSelector:
+    labels:
+      app: nginx
