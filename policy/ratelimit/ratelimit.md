@@ -191,6 +191,9 @@ envoy filter可以通过descriptor，设置针对url路径、请求方法、源I
 
 具体参考 [path](descriptor/path.yaml)、[method](descriptor/method.yaml)、[remote-address](descriptor/remote_address.yaml)。
 
+Ref1: [config-route-v3-ratelimit-action](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-ratelimit-action)
+Ref2: [Using rate limit descriptors for local rate limiting](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#using-rate-limit-descriptors-for-local-rate-limiting)
+
 # global ratelimit
 
 global ratelimit的特点是，其限流器是一个公共的gRPC服务，使用同一个限流器的pods，都受这个限流器的限制，并且互相之间是共享一个限流QPS的。
