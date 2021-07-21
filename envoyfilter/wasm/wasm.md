@@ -15,17 +15,44 @@
 - [envoy wasm filter](#envoy-wasm-filter)
   - [创建envoy filter](#%E5%88%9B%E5%BB%BAenvoy-filter)
   - [验证](#%E9%AA%8C%E8%AF%81)
+- [Ref](#ref)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-> 针对istio 1.10版本验证。
+> 针对istio 1.10版本验证。注意网上部分文章已经不适配1.10版本了。
+
+本文只会简单介绍envoy web assembly以及一个Demo实例，不会详细介绍 envoy web assembly原理或编程。
 
 本文将使用solo开发的[wasme](https://github.com/solo-io/wasm)初始化一个assemblyscript类型的项目，并执行编译，得到wasm二进制文件。然后通过注解，将wasm文件以configmap的形式，自动挂载到istio-proxy容器中。最后创建WASM类型的envoy filter，将规则下发给对应Pod的envoy。
 
 # envoy wasm plugins
 
-Arch。
+envoy有着很强的可配置性，但总归有一些功能是没有实现的，那么如何对envoy进行扩展呢？
+
+有2种做法：一个是直接修改envoy源码，另一个是通过Web Assembly插件。
+
+直接修改源码的好处是envoy native，性能最好，但带来了可维护性的降低，不利于未来升级，另外也需要使用c++进行编码，对开发人员有一定的要求。
+
+相对来说，Web Assembly的好处就比较多了，如下是banzaicloud总结的几个点：
+
+- Agility - filters can be dynamically loaded into the running Envoy process without the need to stop or re-compile.
+- Maintainability - we don’t have to change the Envoy’s codebase to extend its functionality.
+- Diversity - popular programming languages such as C/C++ and Rust can be compiled into WASM, thus developers can implement filters using their programming language of choice.
+- Reliability and isolation - filters are deployed into a VM (sandbox), therefore are isolated from the hosting Envoy process itself (e.g. when the WASM filter crashes it will not impact the Envoy process).
+- Security - since filters communicate with the host (Envoy Proxy) through a well-defined API, they have access to and can modify only a limited number of connection or request properties.
+
+目前Envoy 提供了如下几种语言的 Web Assembly SDK：
+
+- C++
+- Rust
+- AssemblyScript
+- Go - still experimental
+
+当然，Web Assembly也有其缺点：
+
+- 性能降低，只有原生c++的70%
+- 内存使用增加，毕竟运行了一个v8的虚拟机
 
 ![extending.svg](extending.svg)
 
@@ -240,7 +267,7 @@ hello: world!
 
 
 
-Ref:
+# Ref
 
 - [jotak@discuss.isito.io](https://discuss.istio.io/t/istio-1-7-fails-to-create-a-wasm-filter/8208/10?u=silenceshell)，与1.10适配
 - [How to write WASM filters for Envoy and deploy it with Istio](https://banzaicloud.com/blog/envoy-wasm-filter/), banzaicloud的文章，注意文中envoyfilter已经与1.10不匹配了。
