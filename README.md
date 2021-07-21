@@ -20,6 +20,10 @@ Policy:
 
 - [Rate Limit](policy/ratelimit/ratelimit.md)
 
+Envoy Filter:
+
+- [Wasm](envoyfilter/wasm/wasm.md)
+
 Misc:
 - [Isolation](misc/isolation.md)
 - [Delaying application start until sidecar is ready](misc/sidecar-sequence.md)
