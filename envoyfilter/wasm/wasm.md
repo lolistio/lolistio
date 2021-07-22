@@ -56,9 +56,9 @@ envoy有着很强的可配置性，但总归有一些功能是没有实现的，
 
 ![extending.svg](extending.svg)
 
-# wasm
+# assemblyscript SDK
 
-下面介绍如何使用wasme制作wasm二进制文件。
+下面介绍如何使用wasme，基于assemblyscript SDK ，制作wasm二进制文件。
 
 ## wasme工具
 
@@ -264,6 +264,61 @@ hello: world!
 }
 ```
 
+# Go SDK
+
+上文描述了如何使用 assemblyscript SDK 来开发envoy WASM proxy，很多后端开发人员并不熟悉Type Script，使用起来多有不便。
+
+envoy WASM是支持 GO SDK 的，该SDK由 tetrate 开发，项目为 [proxy-wasm-go-sdk](https://github.com/tetratelabs/proxy-wasm-go-sdk) 。
+
+proxy-wasm-go-sdk 依赖 TinyGo编译器，而不是普通的Go编译器。与服务端使用的Go编译器不同，TinyGo主要面向嵌入式系统和WASM。
+
+下面介绍下使用方法。
+
+## 安装tinyGo
+
+参照[官网](https://tinygo.org/getting-started/install/linux/)。我这里是ubuntu。
+
+```bash
+wget https://github.com/tinygo-org/tinygo/releases/download/v0.18.0/tinygo_0.18.0_amd64.deb
+sudo dpkg -i tinygo_0.18.0_amd64.deb
+```
+
+## 示例编写
+
+这里直接使用 proxy-wasm-go-sdk 的[example http_headers](https://github.com/tetratelabs/proxy-wasm-go-sdk/tree/main/examples/http_headers)，它会replace http header。
+
+```go
+func (ctx *httpHeaders) OnHttpRequestHeaders(numHeaders int, endOfStream bool) types.Action {
+	err := proxywasm.ReplaceHttpRequestHeader("test", "best")
+	if err != nil {
+		proxywasm.LogCriticalf("failed to set request header: test, %v", err)
+	}
+
+	hs, err := proxywasm.GetHttpRequestHeaders()
+	if err != nil {
+		proxywasm.LogCriticalf("failed to get request headers: %v", err)
+	}
+
+	for _, h := range hs {
+		proxywasm.LogInfof("request header --> %s: %s", h[0], h[1])
+	}
+	return types.ActionContinue
+}
+```
+
+从代码上来看，go sdk要比较方便一些，主要是比较熟悉，可以直接查看 proxy-wasm-go-sdk 提供的接口。
+
+## 编译
+
+在http_headers目录下执行tinygo编译，生成p.wasm。
+
+```
+tinygo build -o p.wasm -scheduler=none -target=wasi -no-debug
+```
+
+## 应用与验证
+
+接下来的步骤和 assemblyscript SDK 类似，也是创建configmap、挂载到istio-proxy容器、创建envoy wasm filter，不再赘述。
 
 
 

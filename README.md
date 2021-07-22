@@ -22,7 +22,7 @@ Policy:
 
 Envoy Filter:
 
-- [Wasm Demo](envoyfilter/wasm/wasm.md)
+- [Proxy Wasm Demo with assemblyscript/Go SDK](envoyfilter/wasm/wasm.md)
 
 Misc:
 - [Isolation](misc/isolation.md)
