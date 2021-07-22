@@ -3,7 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [envoy wasm plugins](#envoy-wasm-plugins)
-- [wasm](#wasm)
+- [assemblyscript SDK](#assemblyscript-sdk)
   - [wasme工具](#wasme%E5%B7%A5%E5%85%B7)
   - [命令行安装](#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%89%E8%A3%85)
   - [初始化示例项目](#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A4%BA%E4%BE%8B%E9%A1%B9%E7%9B%AE)
@@ -15,6 +15,11 @@
 - [envoy wasm filter](#envoy-wasm-filter)
   - [创建envoy filter](#%E5%88%9B%E5%BB%BAenvoy-filter)
   - [验证](#%E9%AA%8C%E8%AF%81)
+- [Go SDK](#go-sdk)
+  - [安装tinyGo](#%E5%AE%89%E8%A3%85tinygo)
+  - [示例编写](#%E7%A4%BA%E4%BE%8B%E7%BC%96%E5%86%99)
+  - [编译](#%E7%BC%96%E8%AF%91-1)
+  - [应用与验证](#%E5%BA%94%E7%94%A8%E4%B8%8E%E9%AA%8C%E8%AF%81)
 - [Ref](#ref)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
