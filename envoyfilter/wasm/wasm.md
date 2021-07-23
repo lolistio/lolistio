@@ -31,6 +31,8 @@
 
 本文将使用solo开发的[wasme](https://github.com/solo-io/wasm)初始化一个assemblyscript类型的项目，并执行编译，得到wasm二进制文件。然后通过注解，将wasm文件以configmap的形式，自动挂载到istio-proxy容器中。最后创建WASM类型的envoy filter，将规则下发给对应Pod的envoy。
 
+之后介绍了如何使用Go SDK来开发wasm。
+
 # envoy wasm plugins
 
 envoy有着很强的可配置性，但总归有一些功能是没有实现的，那么如何对envoy进行扩展呢？
