@@ -28,6 +28,7 @@ Misc:
 - [Isolation](misc/isolation.md)
 - [Delaying application start until sidecar is ready](misc/sidecar-sequence.md)
 - [Health check](misc/health-check/health-check.md)
+- [Client-go shared informer](misc/client-go/shared-informer.md)
 
 <!-- - [Debug](misc/debug.md) -->
 <!-- - [canary upgrade of istio](setup/upgrade/canary-upgrade.md) -->
