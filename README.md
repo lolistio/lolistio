@@ -28,6 +28,7 @@ Misc:
 - [隔离](misc/isolation.md)
 - [调整Container启动顺序，确保应用在sidecar就绪后启动](misc/sidecar-sequence.md)
 - [健康检查](misc/health-check/health-check.md)
+- [如何对istio数据平面进行benchmark](misc/perf/benchmark/benchmark.md)
 - [Client-go shared informer寻宝图](misc/client-go/shared-informer.md)
 
 <!-- - [Debug](misc/debug.md) -->
