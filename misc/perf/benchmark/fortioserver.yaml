@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fortioserver
+  name: fortioserver
+  namespace: twopods-istio
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: fortioserver
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: disabled
+        sidecar.istio.io/inject: "true"
+        sidecar.istio.io/interceptionMode: REDIRECT
+        sidecar.istio.io/proxyCPU: 1000m
+        sidecar.istio.io/proxyMemory: 512Mi
+        traffic.sidecar.istio.io/excludeInboundPorts: 8076,8077,8078,8081,9999
+        traffic.sidecar.istio.io/excludeOutboundPorts: 80,8076,8077,8078,8081
+      creationTimestamp: null
+      labels:
+        app: fortioserver
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - fortioclient
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - args:
+        - nighthawk_test_server
+        - -c
+        - /var/lib/nighthawk/nighthawk-test-server-captured.yaml
+        - --base-id
+        - "1"
+        image: dockerhub.jd.com/wanaka/nighthawk-dev:59683b759eb8f8bd8cce282795c08f9e2b3313d4
+        imagePullPolicy: IfNotPresent
+        name: captured
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8079
+          protocol: TCP
+        - containerPort: 8078
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 1500m
+            memory: 1000Mi
+        securityContext:
+          runAsUser: 1
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/fortio
+          name: shared-data
+        - mountPath: /var/lib/nighthawk
+          name: nighthawk-test-server-config
+      - args:
+        - /bin/sleep
+        - 3650d
+        image: dockerhub.jd.com/wanaka/alpine-bash-curl-jq:latest
+        imagePullPolicy: Always
+        name: shell
+        resources: {}
+        securityContext:
+          runAsUser: 1
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/fortio
+          name: shared-data
+        - mountPath: /var/lib/nighthawk
+          name: nighthawk-test-server-config
+      - args:
+        - nighthawk_test_server
+        - -c
+        - /var/lib/nighthawk/nighthawk-test-server-uncaptured.yaml
+        - --base-id
+        - "2"
+        image: dockerhub.jd.com/wanaka/nighthawk-dev:59683b759eb8f8bd8cce282795c08f9e2b3313d4
+        imagePullPolicy: IfNotPresent
+        name: uncaptured
+        ports:
+        - containerPort: 8077
+          protocol: TCP
+        - containerPort: 8076
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 1500m
+            memory: 1000Mi
+        securityContext:
+          runAsUser: 1
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/fortio
+          name: shared-data
+        - mountPath: /var/lib/nighthawk
+          name: nighthawk-test-server-config
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: shared-data
+      - configMap:
+          defaultMode: 420
+          name: nighthawk-test-server-config
+        name: nighthawk-test-server-config
