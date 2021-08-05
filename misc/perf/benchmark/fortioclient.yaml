@@ -47,7 +47,7 @@ spec:
         - nighthawk_service
         - --listen
         - 0.0.0.0:9999
-        image: dockerhub.jd.com/wanaka/nighthawk-dev:59683b759eb8f8bd8cce282795c08f9e2b3313d4
+        image: registry.iowanaka/nighthawk-dev:59683b759eb8f8bd8cce282795c08f9e2b3313d4
         imagePullPolicy: IfNotPresent
         name: captured
         ports:
@@ -69,7 +69,7 @@ spec:
       - args:
         - /bin/sleep
         - 3650d
-        image: dockerhub.jd.com/wanaka/alpine-bash-curl-jq:latest
+        image: registry.iowanaka/alpine-bash-curl-jq:latest
         imagePullPolicy: Always
         name: shell
         resources: {}
@@ -92,7 +92,7 @@ spec:
         - disabled
         - -data-dir
         - /var/lib/fortio/
-        image: dockerhub.jd.com/wanaka/fortio:latest_release
+        image: registry.iowanaka/fortio:latest_release
         imagePullPolicy: IfNotPresent
         name: uncaptured
         resources:
