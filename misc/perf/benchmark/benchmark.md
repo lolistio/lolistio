@@ -82,7 +82,7 @@ Deployment的编排文件请见[deployment fortioserver](fortioserver.yaml)。Po
 fortioserver包括4个container和1个init container。
 
 - captured：nighthawk-test-server服务端，发给该服务的报文会被proxy劫持。具体来说，监听8079/8080/9080端口，均被劫持。
-- uncaptured：运行nighthawk-test-server服务端，发给该服务的报文**不会**被劫持。具体来说，监听8076/8077/8078端口，均被劫持。
+- uncaptured：运行nighthawk-test-server服务端，发给该服务的报文**不会**被劫持。具体来说，监听8076/8077/8078端口，均不会被劫持。
 - shell：用于执行curl、jq等命令行
 - istio-proxy：proxy，istio注入的sidecar
 - init container：istio注入的init container，用于初始化iptables规则进行流量劫持。
