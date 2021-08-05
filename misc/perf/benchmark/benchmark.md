@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [背景介绍](#%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D)
+- [准备](#%E5%87%86%E5%A4%87)
+- [tools install](#tools-install)
+  - [fortioclient](#fortioclient)
+  - [fortioserver](#fortioserver)
+- [测试](#%E6%B5%8B%E8%AF%95)
+  - [运行测试用例](#%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B)
+  - [收集指标信息](#%E6%94%B6%E9%9B%86%E6%8C%87%E6%A0%87%E4%BF%A1%E6%81%AF)
+  - [可视化](#%E5%8F%AF%E8%A7%86%E5%8C%96)
+- [总结](#%E6%80%BB%E7%BB%93)
+- [Ref](#ref)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 # 背景介绍
 
