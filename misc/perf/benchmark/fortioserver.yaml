@@ -48,7 +48,7 @@ spec:
         - /var/lib/nighthawk/nighthawk-test-server-captured.yaml
         - --base-id
         - "1"
-        image: registry.iowanaka/nighthawk-dev:59683b759eb8f8bd8cce282795c08f9e2b3313d4
+        image: registry.io/wanaka/nighthawk-dev:59683b759eb8f8bd8cce282795c08f9e2b3313d4
         imagePullPolicy: IfNotPresent
         name: captured
         ports:
@@ -74,7 +74,7 @@ spec:
       - args:
         - /bin/sleep
         - 3650d
-        image: registry.iowanaka/alpine-bash-curl-jq:latest
+        image: registry.io/wanaka/alpine-bash-curl-jq:latest
         imagePullPolicy: Always
         name: shell
         resources: {}
@@ -93,7 +93,7 @@ spec:
         - /var/lib/nighthawk/nighthawk-test-server-uncaptured.yaml
         - --base-id
         - "2"
-        image: registry.iowanaka/nighthawk-dev:59683b759eb8f8bd8cce282795c08f9e2b3313d4
+        image: registry.io/wanaka/nighthawk-dev:59683b759eb8f8bd8cce282795c08f9e2b3313d4
         imagePullPolicy: IfNotPresent
         name: uncaptured
         ports:
